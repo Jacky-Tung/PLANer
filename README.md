@@ -1,6 +1,6 @@
-#Term Project
+# Term Project
 
-##Project Team 
+## Project Team 
 
 Jacky Tung,   jackytung20@gmail.com,     github: Jacky Tung
 Linxin Jiang, linxin.jiang625@gmail.com, github: LinxinJiang
