@@ -21,4 +21,10 @@ PLANer
 
 ## Risks and Mitigation
 
-[fill in w/ risks and mitigation]
+-Risk 1: Lack of Android development experience
+    -Desc.: May lead to trying to build functions that we're not ready  for.
+    -Mitigation: Keeping diligent with our studies and reading up on outside resources
+
+-Risk 2: Time management of teammates working together or individually
+    -Desc.: There could be conflicts in schedules which may prevent teammates from meeting and discussing the project together
+    -Mitigation: Planning ahead and keeping up communication in the discord server
