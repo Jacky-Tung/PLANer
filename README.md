@@ -2,9 +2,11 @@
 
 ## Project Team 
 
-Jacky Tung,   jackytung20@gmail.com,     github: Jacky Tung
-Linxin Jiang, linxin.jiang625@gmail.com, github: LinxinJiang
-Richard Park, rsjpark2@gmail.com,        github: rsjpark
+Jacky Tung,   jackytung20@gmail.com,     github: Jacky Tung 
+
+Linxin Jiang, linxin.jiang625@gmail.com, github: LinxinJiang 
+
+Richard Park, rsjpark2@gmail.com,        github: rsjpark 
 
 ## App Name
 
