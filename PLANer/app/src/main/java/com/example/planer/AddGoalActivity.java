@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.localplaner.R;
 import com.google.android.material.button.MaterialButton;
 
 import io.realm.Realm;

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.localplaner'
+    namespace 'com.example.planer'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.localplaner"
+        applicationId "com.example.planer"
         minSdk 24
         targetSdk 33
         versionCode 1

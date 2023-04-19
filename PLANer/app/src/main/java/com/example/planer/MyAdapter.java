@@ -12,8 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.localplaner.R;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
