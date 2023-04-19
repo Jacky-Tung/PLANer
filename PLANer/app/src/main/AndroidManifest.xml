@@ -11,8 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PLANer"
         tools:targetApi="31">
-        <activity
-            android:name=".MainActivity"
+        <activity android:name="com.example.planer.AddGoalActivity"
+            android:exported="true"/>
+        <activity android:name="com.example.planer.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
