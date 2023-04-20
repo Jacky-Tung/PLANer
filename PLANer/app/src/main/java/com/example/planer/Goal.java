@@ -4,8 +4,8 @@ import io.realm.RealmObject;
 
 public class Goal extends RealmObject {
     String title;
-    String description;
-    long createdAt;
+    String description;     // Discuss - necessary?/replaced by subgoal
+    long createdAt;         // Discuss - necessary?
     Integer dailyNumber;
 
     public String getTitle() {

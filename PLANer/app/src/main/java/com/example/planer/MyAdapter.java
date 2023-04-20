@@ -42,10 +42,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             public boolean onLongClick(View view) {
 
                 PopupMenu menu = new PopupMenu(context, view);
+                //---//
+                menu.getMenu().add("ASSIGN CUMULATIVE INDEX");
+                //---//
                 menu.getMenu().add("DELETE");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        //---//
+                        if(menuItem.getTitle().equals("ASSIGN CUMULATIVE INDEX")) {
+                            //link to text field in goal_view and completedGoals/totalGoals
+                        }
+                        //---//
                         if(menuItem.getTitle().equals("DELETE")) {
                             Realm realm = Realm.getDefaultInstance();
                             realm.beginTransaction();

@@ -48,6 +48,18 @@
             android:lines="10"
             android:padding="10dp" />
 
+        <!-- discuss: manually input goal number/todo? -->
+        <EditText
+            android:id="@+id/daily_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/teal_100"
+            android:hint="Daily Goal Number"
+            android:padding="15dp"
+            android:textAlignment="center"
+            android:translationX="65dp" />
+
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton

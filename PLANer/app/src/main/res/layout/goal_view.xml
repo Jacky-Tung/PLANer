@@ -18,8 +18,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/description_output"
         android:layout_below="@+id/title_output"
-        android:textColor="#393939"
+        android:textColor="@color/black"
         android:text="Goal Description"/>
+
+    <!-- if setting daily to do: set string ref "Daily To do: " and change with realm transactions -->
 
 
 </RelativeLayout>
