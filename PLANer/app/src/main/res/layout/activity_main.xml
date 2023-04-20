@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +10,14 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/goal_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/goal_title"
         android:text="GOALS"
-        android:textSize="20dp"
+        android:textAlignment="center"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textAlignment="center"/>
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/goal_count"
@@ -30,19 +31,43 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goals_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/goals_recycler_view"
         android:layout_above="@id/add_new_goal_button"
-        android:layout_below="@+id/goal_title"/>
+        android:layout_below="@+id/goal_title">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_new_goal_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add new goal"
-        android:id="@+id/add_new_goal_button"
-        android:textColor="@color/teal_200"
+        android:layout_alignParentBottom="true"
         android:backgroundTint="@color/white"
-        android:layout_alignParentBottom="true"/>
+        android:text="Add new goal"
+        android:textColor="@color/teal_200" />
+
+<!-- discuss: possible replacement for add_new_goal_button -->
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/add_new_goal_button"-->
+<!--        style="@style/Widget.MaterialComponents.Button.Icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:insetLeft="0dp"-->
+<!--        android:insetTop="0dp"-->
+<!--        android:insetRight="0dp"-->
+<!--        android:insetBottom="0dp"-->
+<!--        android:padding="15dp"-->
+<!--        app:backgroundTint="@color/white"-->
+<!--        app:icon="@drawable/plus_vector"-->
+<!--        app:iconGravity="textStart"-->
+<!--        app:iconPadding="0dp"-->
+<!--        app:iconSize="70dp"-->
+<!--        app:iconTint="@color/teal_200"-->
+<!--        app:shapeAppearanceOverlay="@style/button_rounding"/>-->
 
 </RelativeLayout>
+

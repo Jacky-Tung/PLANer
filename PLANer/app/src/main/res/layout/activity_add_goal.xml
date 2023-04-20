@@ -33,7 +33,7 @@
             android:id="@+id/title_input"
             android:hint="Title"
             android:background="#3003DAC5"
-            android:padding="10dp"
+            android:padding="15dp"
             android:layout_margin="10dp"/>
         <EditText
             android:layout_width="match_parent"
