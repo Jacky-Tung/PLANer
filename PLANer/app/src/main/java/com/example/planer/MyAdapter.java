@@ -1,12 +1,16 @@
 package com.example.planer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +81,51 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 menu.show();
 
                 return true;
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Enter goals input");
+                builder.setMessage("Please enter your goals input:");
+                builder.setCancelable(false);
+
+                final EditText goalsInput = new EditText(activity);
+                builder.setView(goalsInput);
+
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String userGoalsInput = goalsInput.getText().toString();
+                        if(InputValidator.validNumberInput(userGoalsInput)) {
+                            goal.setGoalsInput(Integer.parseInt(userGoalsInput));
+                            realm.commitTransaction();
+                            Toast.makeText(context, "Goals input saved", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            realm.commitTransaction();
+                            Toast.makeText(context, "Invalid goals input", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        realm.commitTransaction();
+                        dialogInterface.cancel();
+                    }
+                });
+
+                if (!activity.isFinishing() && !activity.isDestroyed()) {
+                    builder.show();
+                }
+
             }
         });
     }

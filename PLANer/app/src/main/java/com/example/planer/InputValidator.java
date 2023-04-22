@@ -3,7 +3,7 @@ package com.example.planer;
 public class InputValidator {
 
     // no blank title and description
-    static boolean validTitleAndDescription(String title, String description){
+    static boolean validStringInput(String title, String description){
         if(title.equals("") || description.equals("")){
             return false;
         }
@@ -11,7 +11,7 @@ public class InputValidator {
     }
 
     // no non-digit input for dailyNumber and totalNumber
-    static boolean validTotalAndDailyNumber(String number){
+    static boolean validNumberInput(String number){
         if(number.equals("")){
             return false;
         }

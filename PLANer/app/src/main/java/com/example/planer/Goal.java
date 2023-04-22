@@ -6,8 +6,9 @@ public class Goal extends RealmObject {
     private String title;
     private String description;     // Discuss - necessary?/replaced by subgoal
     private long createdAt;         // Discuss - necessary?
-    private int dailyNumber;
-    private int totalNumber;
+    private int goalsInput;
+    private int goalsCounter;
+    private int goalsCompletedCounter;
 
     public String getTitle() {
         return title;
@@ -25,12 +26,12 @@ public class Goal extends RealmObject {
         this.description = description;
     }
 
-    public int getDailyNumber() {
-        return dailyNumber;
+    public int getGoalsInput() {
+        return goalsInput;
     }
 
-    public void setDailyNumber(int dailyNumber) {
-        this.dailyNumber = dailyNumber;
+    public void setGoalsInput(int goalsInput) {
+        this.goalsInput = goalsInput;
     }
 
     public long getCreatedAt() {
@@ -41,7 +42,19 @@ public class Goal extends RealmObject {
         this.createdAt = createdAt;
     }
 
-    public void setTotalNumber(int totalNumber){
-        this.totalNumber = totalNumber;
+    public void setGoalsCounter(int goalsCounter){
+        this.goalsCounter = goalsCounter;
+    }
+
+    public int getGoalsCounter() {
+        return goalsCounter;
+    }
+
+    public int getGoalsCompletedCounter() {
+        return goalsCompletedCounter;
+    }
+
+    public void setGoalsCompletedCounter(int goalsCompletedCounter) {
+        this.goalsCompletedCounter = goalsCompletedCounter;
     }
 }

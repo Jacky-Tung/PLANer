@@ -58,7 +58,7 @@
 
         <!-- discuss: manually input goal number/todo? -->
         <EditText
-            android:id="@+id/total_number_input"
+            android:id="@+id/goals_counter_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

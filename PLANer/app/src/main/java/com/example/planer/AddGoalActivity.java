@@ -20,7 +20,7 @@ public class AddGoalActivity extends AppCompatActivity {
 
         EditText titleInput = findViewById(R.id.title_input);
         EditText descriptionInput = findViewById(R.id.description_input);
-        EditText totalNumberInput = findViewById(R.id.total_number_input);
+        EditText goalsCounterInput = findViewById(R.id.goals_counter_input);
         MaterialButton addGoalButton = findViewById((R.id.add_goal_button));
         MaterialButton returnButton = findViewById(R.id.return_button);
 
@@ -33,15 +33,15 @@ public class AddGoalActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = titleInput.getText().toString();
                 String description = descriptionInput.getText().toString();
-                String totalNumber = totalNumberInput.getText().toString();
+                String goalsCounter = goalsCounterInput.getText().toString();
                 long createdAt = System.currentTimeMillis();
 
-                if(InputValidator.validTotalAndDailyNumber(totalNumber) && InputValidator.validTitleAndDescription(title, description)) {
+                if(InputValidator.validNumberInput(goalsCounter) && InputValidator.validStringInput(title, description)) {
                     Goal goal = realm.createObject(Goal.class);
                     goal.setTitle(title);
                     goal.setDescription(description);
                     goal.setCreatedAt(createdAt);
-                    goal.setTotalNumber(Integer.parseInt(totalNumber));
+                    goal.setGoalsCounter(Integer.parseInt(goalsCounter));
                     realm.commitTransaction();
                     Toast.makeText(getApplicationContext(), "Goal added", Toast.LENGTH_SHORT).show();
                     finish();

@@ -31,7 +31,7 @@ public class AssignDailyNumberActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String dailyNumber = dailyNumberInput.getText().toString();
 
-                if(InputValidator.validTotalAndDailyNumber(dailyNumber)){
+                if(InputValidator.validNumberInput(dailyNumber)){
                     // fetch specific goal clicked on, set daily number
                 }
                 else{
