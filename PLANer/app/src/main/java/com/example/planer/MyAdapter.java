@@ -1,6 +1,8 @@
 package com.example.planer;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +20,13 @@ import io.realm.RealmResults;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
+    Activity activity;
     RealmResults<Goal> goalList;
 
-    public MyAdapter(Context context, RealmResults<Goal> goalList) {
+    public MyAdapter(Context context, RealmResults<Goal> goalList, Activity activity) {
         this.context = context;
         this.goalList = goalList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -44,6 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 PopupMenu menu = new PopupMenu(context, view);
                 //---//
                 menu.getMenu().add("ASSIGN CUMULATIVE INDEX");
+//                menu.getMenu().add("ASSIGN DAILY NUMBER");
                 //---//
                 menu.getMenu().add("DELETE");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -51,8 +56,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         //---//
                         if(menuItem.getTitle().equals("ASSIGN CUMULATIVE INDEX")) {
-                            //link to text field in goal_view and completedGoals/totalGoals
+                            Intent intent = new Intent(activity, AssignDailyNumberActivity.class);
+//                            intent.putExtra("goalObject", goal);
+                            activity.startActivity(intent);
                         }
+//                        if(menuItem.getTitle().equals("ASSIGN DAILY NUMBER")) {
+//                            //link to text field in goal_view and completedGoals/totalGoals
+//                        }
                         //---//
                         if(menuItem.getTitle().equals("DELETE")) {
                             Realm realm = Realm.getDefaultInstance();

@@ -7,8 +7,7 @@
     android:background="@color/teal_200"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".AddGoalActivity">
-
+    tools:context=".AssignDailyNumberActivity">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/return_button"
@@ -18,12 +17,12 @@
         app:icon="@drawable/return_vector" />
 
     <TextView
-        android:id="@+id/title_textview"
+        android:id="@+id/daily_number_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:text="Add new goal"
+        android:text="ASSIGN DAILY NUMBER"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold" />
@@ -37,45 +36,23 @@
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/title_input"
+            android:id="@+id/daily_number_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/teal_100"
-            android:hint="Title"
+            android:hint="Daily number"
             android:padding="15dp" />
-
-        <EditText
-            android:id="@+id/description_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/teal_100"
-            android:gravity="top"
-            android:hint="Description"
-            android:lines="10"
-            android:padding="15dp" />
-
-        <!-- discuss: manually input goal number/todo? -->
-        <EditText
-            android:id="@+id/total_number_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/teal_100"
-            android:hint="Total Goal Number"
-            android:padding="15dp"
-            android:textAlignment="center"
-            android:translationX="65dp" />
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_goal_button"
+        android:id="@+id/assign_dailynumber_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
-        android:text="ADD GOAL"
+        android:text="ASSIGN DAILY NUMBER"
         android:textColor="@color/teal_200" />
+
 </LinearLayout>

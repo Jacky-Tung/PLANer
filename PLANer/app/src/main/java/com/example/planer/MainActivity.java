@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.goals_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MyAdapter myAdapter = new MyAdapter(getApplicationContext(), goalList);
+        MyAdapter myAdapter = new MyAdapter(getApplicationContext(), goalList, this);
         recyclerView.setAdapter(myAdapter);
 
         TextView goalCount = findViewById(R.id.goal_count);

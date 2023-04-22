@@ -3,10 +3,11 @@ package com.example.planer;
 import io.realm.RealmObject;
 
 public class Goal extends RealmObject {
-    String title;
-    String description;     // Discuss - necessary?/replaced by subgoal
-    long createdAt;         // Discuss - necessary?
-    Integer dailyNumber;
+    private String title;
+    private String description;     // Discuss - necessary?/replaced by subgoal
+    private long createdAt;         // Discuss - necessary?
+    private int dailyNumber;
+    private int totalNumber;
 
     public String getTitle() {
         return title;
@@ -24,11 +25,11 @@ public class Goal extends RealmObject {
         this.description = description;
     }
 
-    public Integer getDailyNumber() {
+    public int getDailyNumber() {
         return dailyNumber;
     }
 
-    public void setDailyNumber(Integer dailyNumber) {
+    public void setDailyNumber(int dailyNumber) {
         this.dailyNumber = dailyNumber;
     }
 
@@ -38,5 +39,9 @@ public class Goal extends RealmObject {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setTotalNumber(int totalNumber){
+        this.totalNumber = totalNumber;
     }
 }
