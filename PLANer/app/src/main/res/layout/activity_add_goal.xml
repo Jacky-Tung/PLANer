@@ -43,6 +43,7 @@
             android:layout_margin="10dp"
             android:background="@color/teal_100"
             android:hint="Title"
+            android:lines="2"
             android:padding="15dp" />
 
         <EditText
@@ -59,14 +60,14 @@
         <!-- discuss: manually input goal number/todo? -->
         <EditText
             android:id="@+id/goals_counter_input"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/teal_100"
             android:hint="Total Goal Number"
             android:padding="15dp"
-            android:textAlignment="center"
-            android:translationX="65dp" />
+            android:lines="1"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
