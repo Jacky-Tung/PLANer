@@ -3,6 +3,7 @@ package com.example.planer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,13 @@ import com.google.android.material.button.MaterialButton;
 import io.realm.Realm;
 
 public class AddGoalActivity extends AppCompatActivity {
+
+    //---//
+    TextView titleTextView;
+    String editTitle, editDescription, editGoalsCounter;
+//    boolean editMode = false;
+//    create bool method called in adapter Edit Menu to change text view from Add New Goal and Add Goal to both Edit Goal
+    //---//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,17 @@ public class AddGoalActivity extends AppCompatActivity {
         EditText goalsCounterInput = findViewById(R.id.goals_counter_input);
         MaterialButton addGoalButton = findViewById((R.id.add_goal_button));
         MaterialButton returnButton = findViewById(R.id.return_button);
+
+        //---//
+        titleTextView = findViewById(R.id.title_textview);
+        editTitle = getIntent().getStringExtra("title");
+        editDescription = getIntent().getStringExtra("description");
+        editGoalsCounter = getIntent().getStringExtra("goalsCounter");
+
+        titleInput.setText(editTitle);
+        descriptionInput.setText(editDescription);
+        goalsCounterInput.setText(editGoalsCounter);
+        //---//
 
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();

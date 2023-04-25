@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.metrics.BundleSession;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,23 +53,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 PopupMenu menu = new PopupMenu(context, view);
                 //---//
-                menu.getMenu().add("ASSIGN CUMULATIVE INDEX");
-//                menu.getMenu().add("ASSIGN DAILY NUMBER");
+                menu.getMenu().add("EDIT");
                 //---//
                 menu.getMenu().add("DELETE");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         //---//
-                        if(menuItem.getTitle().equals("ASSIGN CUMULATIVE INDEX")) {
-                            Intent intent = new Intent(activity, AssignDailyNumberActivity.class);
-//                            intent.putExtra("goalObject", goal);
-                            activity.startActivity(intent);
-                        }
-//                        if(menuItem.getTitle().equals("ASSIGN DAILY NUMBER")) {
-//                            //link to text field in goal_view and completedGoals/totalGoals
-//                        }
+                        if(menuItem.getTitle().equals("EDIT")) {
+                            Intent intent = new Intent(context, AddGoalActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("description", goal.getDescription());
+                            intent.putExtra("title", goal.getTitle());
+                            intent.putExtra("goalsCounter", goal.getGoalsCounter());
+                            context.startActivity(intent);
+
+                            /// current functionality delete note then add new note with previous fields ///
+                            /// add flag for add edit so note doesn't get deleted on click //
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.beginTransaction();
+                            goal.deleteFromRealm();
+                            realm.commitTransaction();
                         //---//
+                        }
                         if(menuItem.getTitle().equals("DELETE")) {
                             Realm realm = Realm.getDefaultInstance();
                             realm.beginTransaction();

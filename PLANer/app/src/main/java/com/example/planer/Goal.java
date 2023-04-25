@@ -4,11 +4,17 @@ import io.realm.RealmObject;
 
 public class Goal extends RealmObject {
     private String title;
-    private String description;     // Discuss - necessary?/replaced by subgoal
-    private long createdAt;         // Discuss - necessary?
+    private String description;
+    private long createdAt;
     private int goalsInput;
     private int goalsCounter;
     private int goalsCompletedCounter;
+
+    //---//
+    //add field for individual goal id for edit if changing functionality.
+    //discuss: edit at the moment makes a new note. If editing a note do we want a new createdAt,
+    //         or pass value so it's the same as the old
+    //---//
 
     public String getTitle() {
         return title;
