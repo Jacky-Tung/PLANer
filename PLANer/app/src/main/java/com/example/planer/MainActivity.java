@@ -53,5 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 goalCount.setText("Number of goals: " + myAdapter.getItemCount());
             }
         });
+
+
+
     }
 }
