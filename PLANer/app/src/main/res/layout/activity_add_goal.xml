@@ -54,7 +54,7 @@
             android:background="@color/teal_100"
             android:gravity="top"
             android:hint="Description"
-            android:lines="10"
+            android:lines="5"
             android:padding="15dp" />
 
         <!-- discuss: manually input goal number/todo? -->
@@ -64,10 +64,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/teal_100"
-            android:hint="Total Goal Number"
+            android:hint="Final Goal"
             android:padding="15dp"
-            android:lines="1"
-            android:textAlignment="center" />
+            android:lines="1" />
+
+        <TextView
+            android:id="@+id/deadline_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/teal_100"
+            android:text="Deadline"
+            android:textSize="19dp"
+            android:padding="15dp"/>
 
     </LinearLayout>
 

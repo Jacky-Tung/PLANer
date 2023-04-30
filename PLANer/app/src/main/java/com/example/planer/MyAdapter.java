@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -46,6 +48,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Goal goal = goalList.get(position);
         holder.titleOutput.setText(goal.getTitle());
         holder.descriptionOutput.setText(goal.getDescription());
+        if(goal.getDeadline() != null){
+            holder.deadlineOutput.setText("Deadline: " + goal.getDeadline().toString());
+        }
+        else{
+            holder.deadlineOutput.setText("Deadline not assigned");
+        }
+
+        if(goal.isOverdue() && goal.getDeadline() != null){
+            holder.overdueOutput.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.overdueOutput.setVisibility(View.GONE);
+        }
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -147,11 +162,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         TextView titleOutput;
         TextView descriptionOutput;
+        TextView deadlineOutput;
+        TextView overdueOutput;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             titleOutput = itemView.findViewById(R.id.title_output);
             descriptionOutput = itemView.findViewById(R.id.description_output);
+            deadlineOutput = itemView.findViewById(R.id.deadline_output);
+            overdueOutput = itemView.findViewById(R.id.overdue_output);
         }
+    }
+
+    public void updateOverdueStatus(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        Date currentTime = new Date();
+
+        for(Goal goal : goalList){
+            if(goal.getDeadline() != null && currentTime.after(goal.getDeadline())){
+                goal.setOverdue(true);
+            }
+            else{goal.setOverdue(false);}
+        }
+
+        realm.commitTransaction();
+
+        notifyDataSetChanged();
     }
 }

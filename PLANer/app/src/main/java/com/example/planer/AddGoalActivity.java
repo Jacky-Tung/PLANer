@@ -1,7 +1,10 @@
 package com.example.planer;
 
+import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +18,7 @@ import io.realm.Realm;
 public class AddGoalActivity extends AppCompatActivity {
 
     //---//
-    TextView titleTextView;
+    TextView titleTextView, deadlineTextView;
     String editTitle, editDescription, editGoalsCounter;
 //    boolean editMode = false;
 //    create bool method called in adapter Edit Menu to change text view from Add New Goal and Add Goal to both Edit Goal
@@ -31,6 +34,7 @@ public class AddGoalActivity extends AppCompatActivity {
         EditText goalsCounterInput = findViewById(R.id.goals_counter_input);
         MaterialButton addGoalButton = findViewById((R.id.add_goal_button));
         MaterialButton returnButton = findViewById(R.id.return_button);
+        deadlineTextView = findViewById(R.id.deadline_textview);
 
         //---//
         titleTextView = findViewById(R.id.title_textview);
@@ -46,6 +50,7 @@ public class AddGoalActivity extends AppCompatActivity {
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
+        Goal goal = realm.createObject(Goal.class);
 
         addGoalButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +61,6 @@ public class AddGoalActivity extends AppCompatActivity {
                 long createdAt = System.currentTimeMillis();
 
                 if(InputValidator.validNumberInput(goalsCounter) && InputValidator.validStringInput(title, description)) {
-                    Goal goal = realm.createObject(Goal.class);
                     goal.setTitle(title);
                     goal.setDescription(description);
                     goal.setCreatedAt(createdAt);
@@ -74,9 +78,42 @@ public class AddGoalActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                goal.deleteFromRealm();
                 realm.commitTransaction();
                 finish();
             }
         });
+
+        deadlineTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(goal);
+            }
+        });
+    }
+
+    private void showDatePickerDialog(Goal goal) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // display selected deadline
+                        deadlineTextView.setText((month + 1) + "/" + dayOfMonth + "/" + year);
+
+                        // add date to database
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(Calendar.YEAR, year);
+                        selectedDate.set(Calendar.MONTH, month);
+                        selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        goal.setDeadline(selectedDate.getTime());
+                    }
+                }, year, month, dayOfMonth);
+
+        datePickerDialog.show();
     }
 }

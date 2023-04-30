@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
@@ -18,6 +20,11 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class MainActivity extends AppCompatActivity {
+
+    MyAdapter myAdapter;
+    Realm realm;
+    RecyclerView recyclerView;
+    RealmResults<Goal> goalList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +41,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Realm.init(getApplicationContext());
-        Realm realm = Realm.getDefaultInstance();
+//        Reset Database if we modify instance variables for Goal class
+//        RealmConfiguration config = Realm.getDefaultConfiguration();
+//        Realm.deleteRealm(config);
+        realm = Realm.getDefaultInstance();
 
-        RealmResults<Goal> goalList = realm.where(Goal.class).findAll().sort("createdAt", Sort.DESCENDING);
+        goalList = realm.where(Goal.class).findAll().sort("createdAt", Sort.DESCENDING);
 
-        RecyclerView recyclerView = findViewById(R.id.goals_recycler_view);
+        recyclerView = findViewById(R.id.goals_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MyAdapter myAdapter = new MyAdapter(getApplicationContext(), goalList, this);
+        myAdapter = new MyAdapter(getApplicationContext(), goalList, this);
         recyclerView.setAdapter(myAdapter);
 
         TextView goalCount = findViewById(R.id.goal_count);
@@ -53,5 +63,13 @@ public class MainActivity extends AppCompatActivity {
                 goalCount.setText("Number of goals: " + myAdapter.getItemCount());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // checks for overdue for each goal while MainActivity is in resume state
+        myAdapter.updateOverdueStatus();
     }
 }

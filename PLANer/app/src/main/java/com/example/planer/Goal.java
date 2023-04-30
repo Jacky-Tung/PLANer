@@ -1,5 +1,7 @@
 package com.example.planer;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 
 public class Goal extends RealmObject {
@@ -9,6 +11,8 @@ public class Goal extends RealmObject {
     private int goalsInput;
     private int goalsCounter;
     private int goalsCompletedCounter;
+    private Date deadline;
+    private boolean isOverdue;
 
     //---//
     //add field for individual goal id for edit if changing functionality.
@@ -62,5 +66,21 @@ public class Goal extends RealmObject {
 
     public void setGoalsCompletedCounter(int goalsCompletedCounter) {
         this.goalsCompletedCounter = goalsCompletedCounter;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public boolean isOverdue() {
+        return isOverdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        isOverdue = overdue;
     }
 }
