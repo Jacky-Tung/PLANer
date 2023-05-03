@@ -8,6 +8,7 @@ import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -27,6 +28,7 @@ import android.icu.util.Calendar;
 import android.view.View;
 import android.widget.DatePicker;
 
+import androidx.glance.action.Action;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
@@ -34,6 +36,7 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -102,6 +105,19 @@ public class MainActivityEspressoTest {
     // User Story 5, Scenario 1
     @Test
     public void overdueGoal(){
+        // delete all existing goals
+        int goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
+        while(goalCount != 0){
+            onView(withId(R.id.goals_recycler_view))
+                    .perform(actionOnItemAtPosition(0, longClick()));
+
+            onView(withText("DELETE"))
+                    .perform(click());
+
+            goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
+        }
+
+        // An existing goal with deadline assigned
         onView(withId(R.id.add_new_goal_button)).perform(click());
         onView(withId(R.id.title_input)).perform(typeText("Overdue Goal"), closeSoftKeyboard());
         onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
@@ -121,20 +137,41 @@ public class MainActivityEspressoTest {
 
         onView(withId(R.id.add_goal_button)).perform(click());
 
-        // check whether overdue output visibility is VISIBLE for first goal
+        // Should receive an overdue alert or notice
+        onView(ViewMatchers.withId(R.id.goals_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(R.id.overdue_output))));
+
+        onView(withId(R.id.overdue_output)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 
     // User Story 5, Scenario 2
     @Test
-    public void notOverdueGoal(){
+    public void notAssignedDeadlineGoal(){
+        // delete all existing goals
+        int goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
+        while(goalCount != 0){
+            onView(withId(R.id.goals_recycler_view))
+                    .perform(actionOnItemAtPosition(0, longClick()));
+
+            onView(withText("DELETE"))
+                    .perform(click());
+
+            goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
+        }
+
+        // An existing goal without deadline assigned
         onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Overdue Goal"), closeSoftKeyboard());
+        onView(withId(R.id.title_input)).perform(typeText("Not Assigned Deadline Goal"), closeSoftKeyboard());
         onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
         onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
 
         onView(withId(R.id.add_goal_button)).perform(click());
 
-        // check whether overdue output visibility is GONE for first goal
+        // Should not receive an overdue alert or notice
+        onView(ViewMatchers.withId(R.id.goals_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(R.id.overdue_output))));
+
+        onView(withId(R.id.overdue_output)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
     private int getRecyclerViewItemCount(int recyclerViewId) {
