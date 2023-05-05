@@ -39,7 +39,7 @@ Richard Park, rsjpark2@gmail.com, github: rsjpark
   - Mitigation: Planning ahead and keeping up communication in the discord server
 
 
-## Report (TDD design iteration 1)
+## Report 1 (TDD design iteration 1)
 
 - What we did 
   - Implemented behaviors of adding a goal and removing a goal through the realm sdk.
@@ -57,3 +57,25 @@ Richard Park, rsjpark2@gmail.com, github: rsjpark
   - A user story we were not able to implement this iteration is user story #4 where we had to implement a user assignment of a cumulative index to each goal. However, an activity class and inputValidator class was created.
   - The activity class is for assigning the daily number.
   - Input validator makes sure there is no empty input and non-digit input for daily number and total number.  
+
+
+## Report 2 (TDD design iteration 1)
+
+- What we did:
+  - We modified some user stories and scenarios due to difficulties in implementing the original ones. 
+  - We made new user stories because we found them necessary to implement
+  - We implemented user story #5 where we allow users to input a deadline for the goal through a pop-up calendar and created a notice for overdue goals
+  - We created espresso tests for user story #5, testing scenario 1 and 2
+  - We implemented two dependent user stories #7 where we display progress bar for each goal 
+
+- Problems we faced:
+  - Large delay on modifying a goal object function, due to learning and lack of understanding of Realm.
+  - Machine/Android Studio issues keeping us from working on intended project
+  - Constructing tests before any implementation is impractical due to lack of familiarity with android development
+
+- User stories incomplete: 
+  - Modify Goal: unfinished, but nearly complete due to finding solution to error last minute
+  - Cumulative Index: partly finished, we have the layout and instance variables but have not implemented the functionality of accumulating user goals input
+
+- Design pattern:
+  - Iterator design pattern: use an iterator to loop through our goalList collections.
