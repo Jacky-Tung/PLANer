@@ -59,7 +59,7 @@ Richard Park, rsjpark2@gmail.com, github: rsjpark
   - Input validator makes sure there is no empty input and non-digit input for daily number and total number.  
 
 
-## Report 2 (TDD design iteration 1)
+## Report 2 (TDD design iteration 2)
 
 - What we did:
   - We modified some user stories and scenarios due to difficulties in implementing the original ones. 
