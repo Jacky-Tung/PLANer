@@ -67,30 +67,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             public boolean onLongClick(View view) {
 
                 PopupMenu menu = new PopupMenu(context, view);
-                //---//
-                menu.getMenu().add("EDIT");
-                //---//
+
                 menu.getMenu().add("DELETE");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        //---//
-                        if(menuItem.getTitle().equals("EDIT")) {
-                            Intent intent = new Intent(context, AddGoalActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("description", goal.getDescription());
-                            intent.putExtra("title", goal.getTitle());
-                            intent.putExtra("goalsCounter", goal.getGoalsCounter());
-                            context.startActivity(intent);
-
-                            /// current functionality delete note then add new note with previous fields ///
-                            /// add flag for add edit so note doesn't get deleted on click //
-                            Realm realm = Realm.getDefaultInstance();
-                            realm.beginTransaction();
-                            goal.deleteFromRealm();
-                            realm.commitTransaction();
-                        //---//
-                        }
                         if(menuItem.getTitle().equals("DELETE")) {
                             Realm realm = Realm.getDefaultInstance();
                             realm.beginTransaction();
