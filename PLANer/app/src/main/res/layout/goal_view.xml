@@ -39,5 +39,16 @@
 
     <!-- if setting daily to do: set string ref "Daily To do: " and change with realm transactions -->
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/progressbar_bg"
+        android:layout_marginTop="56dp"
+        />
+
+
+
 
 </RelativeLayout>
