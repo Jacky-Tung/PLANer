@@ -44,8 +44,12 @@ public class MyProgressBar {
 
     private View view;
 
+//    public MyProgressBar(View view) {
+//        this.view = view.getRootView();
+//    }
+
     public MyProgressBar(View view) {
-        this.view = view.getRootView();
+        this.view = view;
     }
 
     public int getGoalsCounter() {
@@ -72,7 +76,6 @@ public class MyProgressBar {
         this.start = start;
     }
 
-
     public void displayProgressBar(){
 
         Log.d("PLANER", "progressBar is " + progressBar);
@@ -93,13 +96,15 @@ public class MyProgressBar {
 //            }
 //        });
         progressBar.setIndeterminate(false);
-        if(goalsCounter == 0 || goalsCounter/goalsCompletedCounter <= 0 ){
-            progressBar.setVisibility(View.INVISIBLE);
-        }else{
-            progressBar.setMax(goalsCounter);
-            progressBar.setProgress(goalsCompletedCounter);
-        }
+        progressBar.setMax(goalsCounter);
+        progressBar.setProgress(goalsCompletedCounter);
     }
-
-
 }
+
+/**
+ * Potential Integration:
+ * MyProgressBar inherit RealmObject, remove start button field
+ * Add MyProgressBar as field for goal class
+ * set relevant field in constructor, create new MyProgressBar object
+ * in addGoalActivity, update progress bar for each goal in MyAdapter class
+ */
