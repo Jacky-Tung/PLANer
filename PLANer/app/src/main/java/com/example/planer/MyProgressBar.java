@@ -100,11 +100,3 @@ public class MyProgressBar {
         progressBar.setProgress(goalsCompletedCounter);
     }
 }
-
-/**
- * Potential Integration:
- * MyProgressBar inherit RealmObject, remove start button field
- * Add MyProgressBar as field for goal class
- * set relevant field in constructor, create new MyProgressBar object
- * in addGoalActivity, update progress bar for each goal in MyAdapter class
- */
