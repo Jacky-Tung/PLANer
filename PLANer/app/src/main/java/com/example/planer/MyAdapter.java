@@ -68,6 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 PopupMenu menu = new PopupMenu(context, view);
 
+                menu.getMenu().add("EDIT");
                 menu.getMenu().add("DELETE");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -78,6 +79,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                             goal.deleteFromRealm();
                             realm.commitTransaction();
                             Toast.makeText(context, "Goal deleted", Toast.LENGTH_SHORT).show();
+                        }
+
+                        if(menuItem.getTitle().equals("EDIT")){
+                            // edit activity
                         }
                         return true;
                     }
@@ -92,8 +97,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("Enter goals input");
-                builder.setMessage("Please enter your goals input:");
+                builder.setTitle("Enter progress completed");
+                builder.setMessage("Please enter your progress:");
                 builder.setCancelable(false);
 
                 final EditText goalsInput = new EditText(activity);
@@ -107,13 +112,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String userGoalsInput = goalsInput.getText().toString();
                         if(InputValidator.validNumberInput(userGoalsInput)) {
-                            goal.setGoalsInput(Integer.parseInt(userGoalsInput));
+                            goal.updateGoalsCompletedCounter(Integer.parseInt(userGoalsInput));
+                            MyProgressBar progressBar = new MyProgressBar(view);
+                            progressBar.setGoalsCompletedCounter(goal.getGoalsCompletedCounter());
+                            progressBar.setGoalsCounter(goal.getGoalsCounter());
+                            progressBar.displayProgressBar();
+//                                        goal.setProgressBar(new MyProgressBar(view));
+//                                        goal.getProgressBar().setGoalsCounter(goal.getGoalsCounter());
+//                                        goal.getProgressBar().setGoalsCompletedCounter(goal.getGoalsCompletedCounter());
+//                                        goal.getProgressBar().displayProgressBar();
                             realm.commitTransaction();
-                            Toast.makeText(context, "Goals input saved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Progress updated", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             realm.commitTransaction();
-                            Toast.makeText(context, "Invalid goals input", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Invalid progress", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -129,7 +142,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 if (!activity.isFinishing() && !activity.isDestroyed()) {
                     builder.show();
                 }
-
             }
         });
     }

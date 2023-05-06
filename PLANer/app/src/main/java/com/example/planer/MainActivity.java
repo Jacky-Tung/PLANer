@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         Realm.init(getApplicationContext());
 //        Reset Database if we modify instance variables for Goal class
-//        RealmConfiguration config = Realm.getDefaultConfiguration();
-//        Realm.deleteRealm(config);
+        RealmConfiguration config = Realm.getDefaultConfiguration();
+        Realm.deleteRealm(config);
         realm = Realm.getDefaultInstance();
 
         goalList = realm.where(Goal.class).findAll().sort("createdAt", Sort.DESCENDING);

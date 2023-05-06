@@ -10,7 +10,7 @@ public class InputValidator {
         return true;
     }
 
-    // no non-digit input for dailyNumber and totalNumber
+    // no non-digit input for number input
     static boolean validNumberInput(String number){
         if(number.equals("")){
             return false;
