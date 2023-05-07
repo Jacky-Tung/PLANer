@@ -27,16 +27,16 @@ public class ModifyGoalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_goal);     // change view layout to activity_modify_goal
+        setContentView(R.layout.activity_modify_goal);     // change view layout to activity_modify_goal
 
-        EditText titleInput = findViewById(R.id.title_input);
-        EditText descriptionInput = findViewById(R.id.description_input);
-        EditText goalsCounterInput = findViewById(R.id.goals_counter_input);
-        MaterialButton addGoalButton = findViewById((R.id.add_goal_button));    // change to save_goal_button
-        MaterialButton returnButton = findViewById(R.id.return_button);
-        deadlineTextView = findViewById(R.id.deadline_textview);
+        EditText titleInput = findViewById(R.id.title_input_modify);
+        EditText descriptionInput = findViewById(R.id.description_input_modify);
+        EditText goalsCounterInput = findViewById(R.id.goals_counter_input_modify);
+        MaterialButton addGoalButton = findViewById((R.id.save_goal_button));
+        MaterialButton returnButton = findViewById(R.id.return_button_modify);
+        deadlineTextView = findViewById(R.id.deadline_textview_modify);
 
-        titleTextView = findViewById(R.id.title_textview);
+        titleTextView = findViewById(R.id.title_textview_modify);
         editTitle = getIntent().getStringExtra("title");
         editDescription = getIntent().getStringExtra("description");
         editGoalsCounter = getIntent().getStringExtra("goalsCounter");

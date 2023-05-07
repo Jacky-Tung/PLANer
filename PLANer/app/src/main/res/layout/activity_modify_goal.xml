@@ -7,23 +7,23 @@
     android:background="@color/teal_200"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".AddGoalActivity">
+    tools:context=".ModifyGoalActivity">
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/return_button"
+        android:id="@+id/return_button_modify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:backgroundTint="@color/teal_200"
         app:icon="@drawable/return_vector" />
 
     <TextView
-        android:id="@+id/title_textview"
+        android:id="@+id/title_textview_modify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:text="Add new goal"
+        android:text="Modify your goal"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold" />
@@ -37,7 +37,7 @@
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/title_input"
+            android:id="@+id/title_input_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -47,7 +47,7 @@
             android:padding="15dp" />
 
         <EditText
-            android:id="@+id/description_input"
+            android:id="@+id/description_input_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -58,7 +58,7 @@
             android:padding="15dp" />
 
         <EditText
-            android:id="@+id/goals_counter_input"
+            android:id="@+id/goals_counter_input_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -68,7 +68,7 @@
             android:lines="1" />
 
         <TextView
-            android:id="@+id/deadline_textview"
+            android:id="@+id/deadline_textview_modify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -80,11 +80,11 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_goal_button"
+        android:id="@+id/save_goal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
-        android:text="ADD GOAL"
+        android:text="SAVE GOAL"
         android:textColor="@color/teal_200" />
 </LinearLayout>
