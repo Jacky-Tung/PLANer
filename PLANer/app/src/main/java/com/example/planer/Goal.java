@@ -81,45 +81,34 @@ public class Goal extends RealmObject {
         isOverdue = overdue;
     }
 
-    //---//
     public void setYear(int year) {
         this.year = year;
     }
+
     public int getYear() {
         return year;
     }
+
     public void setMonth(int month) {
         this.month = month;
     }
+
     public int getMonth() {
-        return month;}
+        return month;
+    }
+
     public void setDayOfMonth(int day) {
         this.dayOfMonth = day;
     }
+
     public int getDayOfMonth() {
         return dayOfMonth;
     }
+
     public String getGoalID() {
         return goalID;
     }
 
-//    public void setGoalID(String goalUUID) {
-//        this.goalID = goalUUID;
-//    }
-//
-//    public String createUUID() {
-//        UUID uuid = UUID.randomUUID();
-//        return uuid.toString();
-//    }
-//
-//    public void setModifyMode() {
-//        modifyMode = true;
-//    }
-//
-//    public void resetModifyMode() {
-//        modifyMode = false;
-//    }
-//
     public void updateGoalsCompletedCounter(int goalsInput){
         this.goalsCompletedCounter += goalsInput;
     }

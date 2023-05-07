@@ -19,8 +19,7 @@ import io.realm.Realm;
 
 public class AddGoalActivity extends AppCompatActivity {
 
-    TextView titleTextView, deadlineTextView;
-    String editTitle, editDescription, editGoalsCounter, goalID;
+    TextView deadlineTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

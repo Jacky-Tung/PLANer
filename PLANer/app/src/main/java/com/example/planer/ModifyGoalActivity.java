@@ -14,20 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import io.realm.Realm;
 
 public class ModifyGoalActivity extends AppCompatActivity {
 
     TextView titleTextView, deadlineTextView;
-    String editTitle, editDescription, editGoalsCounter, goalID;
-    //int modifyYear, modifyMonth, modifyDay;
+    String modifyTitle, modifyDescription, modifyGoalsCounter, goalID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_goal);     // change view layout to activity_modify_goal
+        setContentView(R.layout.activity_modify_goal);
 
         EditText titleInput = findViewById(R.id.title_input_modify);
         EditText descriptionInput = findViewById(R.id.description_input_modify);
@@ -37,26 +35,26 @@ public class ModifyGoalActivity extends AppCompatActivity {
         deadlineTextView = findViewById(R.id.deadline_textview_modify);
 
         titleTextView = findViewById(R.id.title_textview_modify);
-        editTitle = getIntent().getStringExtra("title");
-        editDescription = getIntent().getStringExtra("description");
-        editGoalsCounter = getIntent().getStringExtra("goalsCounter");
+        modifyTitle = getIntent().getStringExtra("title");
+        modifyDescription = getIntent().getStringExtra("description");
+        modifyGoalsCounter = getIntent().getStringExtra("goalsCounter");
         goalID = getIntent().getStringExtra("goalID");
 
-        titleInput.setText(editTitle);
-        descriptionInput.setText(editDescription);
-        goalsCounterInput.setText(editGoalsCounter);
+        titleInput.setText(modifyTitle);
+        descriptionInput.setText(modifyDescription);
+        goalsCounterInput.setText(modifyGoalsCounter);
 
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        Goal goal = realm.copyFromRealm(Objects.requireNonNull(realm.where(Goal.class) // holy crap, finally!!!!
+        Goal goal = realm.copyFromRealm(Objects.requireNonNull(realm.where(Goal.class)
                                                .equalTo("goalID", goalID)
                                                .findFirst()));
 
         deadlineTextView.setText((goal.getMonth() + 1) + "/" + goal.getDayOfMonth() + "/" + goal.getYear()); //put calendar data to accessors / check for issues
 
 
-        addGoalButton.setOnClickListener(new View.OnClickListener() {   // change textview to saveGoalButton
+        addGoalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String title = titleInput.getText().toString();
@@ -83,7 +81,6 @@ public class ModifyGoalActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //goal.deleteFromRealm();   // no changes made / don't delete / check why brief white screen
                 realm.commitTransaction();
                 finish();
             }
