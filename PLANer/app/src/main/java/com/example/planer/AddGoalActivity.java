@@ -53,9 +53,13 @@ public class AddGoalActivity extends AppCompatActivity {
                     goal.setDescription(description);
                     goal.setCreatedAt(createdAt);
                     goal.setGoalsCounter(Integer.parseInt(goalsCounter));
+                    goal.setGoalsCompletedCounter(0);
+                    goal.setCompleted(false);
                     realm.commitTransaction();
                     Toast.makeText(getApplicationContext(), "Goal added", Toast.LENGTH_SHORT).show();
                     finish();
+
+
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Invalid title, description, or total number", Toast.LENGTH_SHORT).show();

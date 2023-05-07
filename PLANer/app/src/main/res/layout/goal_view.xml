@@ -33,8 +33,31 @@
         android:id="@+id/overdue_output"
         android:layout_alignParentRight="true"
         android:textColor="#FF0000"
+        android:textStyle="bold"
         android:text="Overdue"
         android:visibility="gone"
         android:padding="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/completed_output"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/overdue_output"
+        android:textColor="#00FF00"
+        android:textStyle="bold"
+        android:text="Completed"
+        android:visibility="gone"
+        android:padding="10dp"/>
 
+
+    <!-- if setting daily to do: set string ref "Daily To do: " and change with realm transactions -->
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/progressbar_bg"
+        android:layout_below="@+id/deadline_output"
+        android:layout_margin="10dp" />
 </RelativeLayout>
