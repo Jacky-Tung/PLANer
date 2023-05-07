@@ -17,6 +17,11 @@
         <activity
             android:name=".AddGoalActivity"
             android:exported="true" />
+        <!--        -->
+        <activity
+            android:name=".ModifyGoalActivity"
+            android:exported="true" />
+        <!--        -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

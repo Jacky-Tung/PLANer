@@ -37,7 +37,4 @@
         android:visibility="gone"
         android:padding="10dp"/>
 
-    <!-- if setting daily to do: set string ref "Daily To do: " and change with realm transactions -->
-
-
 </RelativeLayout>
