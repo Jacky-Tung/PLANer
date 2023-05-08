@@ -79,6 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                             intent.putExtra("title", goal.getTitle());
                             intent.putExtra("goalsCounter", String.valueOf(goal.getGoalsCounter()));    // needed string
                             intent.putExtra("goalID", goal.getGoalID());
+
                             Realm realm = Realm.getDefaultInstance();
                             realm.beginTransaction();
                             realm.copyFromRealm(goal);
@@ -96,26 +97,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     }
                 });
                 menu.show();
-
                 return true;
             }
         });
 
-        holder.itemView.setOnClickListener((v)->{
 
-            Intent intent = new Intent(context, ModifyGoalActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("description", goal.getDescription());
-            intent.putExtra("title", goal.getTitle());
-            intent.putExtra("goalsCounter", String.valueOf(goal.getGoalsCounter()));
-            intent.putExtra("goalID", goal.getGoalID());
-            //String goalID = goal.getGoalID();
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            realm.copyFromRealm(goal);
-            context.startActivity(intent);
-            realm.commitTransaction();
-                });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
