@@ -9,6 +9,8 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import io.realm.RealmObject;
+
 /*
 
 
@@ -42,8 +44,12 @@ public class MyProgressBar {
 
     private View view;
 
+//    public MyProgressBar(View view) {
+//        this.view = view.getRootView();
+//    }
+
     public MyProgressBar(View view) {
-        this.view = view.getRootView();
+        this.view = view;
     }
 
     public int getGoalsCounter() {
@@ -70,27 +76,27 @@ public class MyProgressBar {
         this.start = start;
     }
 
-
     public void displayProgressBar(){
 
         Log.d("PLANER", "progressBar is " + progressBar);
         progressBar = view.findViewById(R.id.progressBar);
        //  start = progressBar.findViewById(R.id.start);
-        start = view.findViewById(R.id.add_goal_button);
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // setContentView(R.layout.activity_main);
-                progressBar.setIndeterminate(false);
-                if(goalsCounter == 0 || goalsCounter/goalsCompletedCounter <= 0 ){
-                    progressBar.setVisibility(View.INVISIBLE);
-                }else{
-                    progressBar.setMax(goalsCounter);
-                    progressBar.setProgress(goalsCompletedCounter);
-                }
-            }
-        });
+//        start = view.findViewById(R.id.add_goal_button);
+//        start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // setContentView(R.layout.activity_main);
+//                progressBar.setIndeterminate(false);
+//                if(goalsCounter == 0 || goalsCounter/goalsCompletedCounter <= 0 ){
+//                    progressBar.setVisibility(View.INVISIBLE);
+//                }else{
+//                    progressBar.setMax(goalsCounter);
+//                    progressBar.setProgress(goalsCompletedCounter);
+//                }
+//            }
+//        });
+        progressBar.setIndeterminate(false);
+        progressBar.setMax(goalsCounter);
+        progressBar.setProgress(goalsCompletedCounter);
     }
-
-
 }

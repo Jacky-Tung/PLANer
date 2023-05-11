@@ -1,24 +1,29 @@
 package com.example.planer;
 
+import android.icu.util.Calendar;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
 
+import java.util.UUID;
+
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 public class Goal extends RealmObject {
+
     private String title;
     private String description;
     private long createdAt;
-    private int goalsInput;
     private int goalsCounter;
     private int goalsCompletedCounter;
     private Date deadline;
     private boolean isOverdue;
-
-    //---//
-    //add field for individual goal id for edit if changing functionality.
-    //discuss: edit at the moment makes a new note. If editing a note do we want a new createdAt,
-    //         or pass value so it's the same as the old
-    //---//
+    private int year, month, dayOfMonth;
+    private boolean completed;
+//    private MyProgressBar progressBar;
+    @PrimaryKey private String goalID;
 
     public String getTitle() {
         return title;
@@ -34,14 +39,6 @@ public class Goal extends RealmObject {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getGoalsInput() {
-        return goalsInput;
-    }
-
-    public void setGoalsInput(int goalsInput) {
-        this.goalsInput = goalsInput;
     }
 
     public long getCreatedAt() {
@@ -83,4 +80,54 @@ public class Goal extends RealmObject {
     public void setOverdue(boolean overdue) {
         isOverdue = overdue;
     }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setDayOfMonth(int day) {
+        this.dayOfMonth = day;
+    }
+
+    public int getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public String getGoalID() {
+        return goalID;
+    }
+
+    public void updateGoalsCompletedCounter(int goalsInput){
+        this.goalsCompletedCounter += goalsInput;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    //    public MyProgressBar getProgressBar() {
+//        return progressBar;
+//    }
+//
+//    public void setProgressBar(MyProgressBar progressBar) {
+//        this.progressBar = progressBar;
+//    }
 }
+
+

@@ -13,30 +13,46 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.UUID;
+import java.util.Objects;
 
 import io.realm.Realm;
 
-public class AddGoalActivity extends AppCompatActivity {
+public class ModifyGoalActivity extends AppCompatActivity {
 
-    TextView deadlineTextView;
+    TextView titleTextView, deadlineTextView;
+    String modifyTitle, modifyDescription, modifyGoalsCounter, goalID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_goal);
+        setContentView(R.layout.activity_modify_goal);
 
-        EditText titleInput = findViewById(R.id.title_input);
-        EditText descriptionInput = findViewById(R.id.description_input);
-        EditText goalsCounterInput = findViewById(R.id.goals_counter_input);
-        MaterialButton addGoalButton = findViewById((R.id.add_goal_button));
-        MaterialButton returnButton = findViewById(R.id.return_button);
-        deadlineTextView = findViewById(R.id.deadline_textview);
+        EditText titleInput = findViewById(R.id.title_input_modify);
+        EditText descriptionInput = findViewById(R.id.description_input_modify);
+        EditText goalsCounterInput = findViewById(R.id.goals_counter_input_modify);
+        MaterialButton addGoalButton = findViewById((R.id.save_goal_button));
+        MaterialButton returnButton = findViewById(R.id.return_button_modify);
+        deadlineTextView = findViewById(R.id.deadline_textview_modify);
+
+        titleTextView = findViewById(R.id.title_textview_modify);
+        modifyTitle = getIntent().getStringExtra("title");
+        modifyDescription = getIntent().getStringExtra("description");
+        modifyGoalsCounter = getIntent().getStringExtra("goalsCounter");
+        goalID = getIntent().getStringExtra("goalID");
+
+        titleInput.setText(modifyTitle);
+        descriptionInput.setText(modifyDescription);
+        goalsCounterInput.setText(modifyGoalsCounter);
 
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        Goal goal = realm.createObject(Goal.class, UUID.randomUUID().toString()); // realm exception error try
+        Goal goal = realm.copyFromRealm(Objects.requireNonNull(realm.where(Goal.class)
+                                               .equalTo("goalID", goalID)
+                                               .findFirst()));
+
+        deadlineTextView.setText((goal.getMonth() + 1) + "/" + goal.getDayOfMonth() + "/" + goal.getYear()); //put calendar data to accessors / check for issues
+
 
         addGoalButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,20 +61,14 @@ public class AddGoalActivity extends AppCompatActivity {
                 String description = descriptionInput.getText().toString();
                 String goalsCounter = goalsCounterInput.getText().toString();
 
-                long createdAt = System.currentTimeMillis();
-
                 if(InputValidator.validNumberInput(goalsCounter) && InputValidator.validStringInput(title, description)) {
                     goal.setTitle(title);
                     goal.setDescription(description);
-                    goal.setCreatedAt(createdAt);
                     goal.setGoalsCounter(Integer.parseInt(goalsCounter));
-                    goal.setGoalsCompletedCounter(0);
-                    goal.setCompleted(false);
+                    realm.copyToRealmOrUpdate(goal);
                     realm.commitTransaction();
-                    Toast.makeText(getApplicationContext(), "Goal added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Goal Saved", Toast.LENGTH_SHORT).show();
                     finish();
-
-
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Invalid title, description, or total number", Toast.LENGTH_SHORT).show();
@@ -71,7 +81,6 @@ public class AddGoalActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goal.deleteFromRealm();
                 realm.commitTransaction();
                 finish();
             }
@@ -95,6 +104,8 @@ public class AddGoalActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+
                         // display selected deadline
                         deadlineTextView.setText((month + 1) + "/" + dayOfMonth + "/" + year);
 
