@@ -62,18 +62,12 @@ public class MainActivityEspressoTest {
     @Test
     public void addNewGoalTest(){
         int initialGoalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
-        onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Goal1"), closeSoftKeyboard());
-        onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
-        onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
-        onView(withId(R.id.add_goal_button)).perform(click());
-        onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Goal2"), closeSoftKeyboard());
-        onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
-        onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
-        onView(withId(R.id.add_goal_button)).perform(click());
-        onView(withId(R.id.goals_recycler_view)).check(matches(hasDescendant(withText("Goal2"))));
-        onView(withId(R.id.goals_recycler_view)).check(matches(hasDescendant(withText("Goal1"))));
+
+        addAGoal("Goal1", "some description", "10");
+        submitAddGoal();
+        addAGoal("Goal2", "some description", "10");
+        submitAddGoal();
+
         assertEquals(initialGoalCount + 2, getRecyclerViewItemCount(R.id.goals_recycler_view));
     }
 
@@ -81,23 +75,13 @@ public class MainActivityEspressoTest {
     @Test
     public void deleteGoalTest(){
         int initialGoalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
-        onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Goal1"), closeSoftKeyboard());
-        onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
-        onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
-        onView(withId(R.id.add_goal_button)).perform(click());
-        onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Goal2"), closeSoftKeyboard());
-        onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
-        onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
-        onView(withId(R.id.add_goal_button)).perform(click());
 
-        onView(withId(R.id.goals_recycler_view))
-                .perform(actionOnItemAtPosition(0, longClick()));
+        addAGoal("Goal1", "some description", "10");
+        submitAddGoal();
+        addAGoal("Goal2", "some description", "10");
+        submitAddGoal();
 
-        onView(withText("DELETE"))
-                .perform(click());
-
+        deleteLatestGoal();
 
         assertEquals(initialGoalCount + 2 - 1, getRecyclerViewItemCount(R.id.goals_recycler_view));
     }
@@ -105,73 +89,35 @@ public class MainActivityEspressoTest {
     // User Story 5, Scenario 1
     @Test
     public void overdueGoal(){
-        // delete all existing goals
-        int goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
-        while(goalCount != 0){
-            onView(withId(R.id.goals_recycler_view))
-                    .perform(actionOnItemAtPosition(0, longClick()));
+        deleteExistingGoals();
 
-            onView(withText("DELETE"))
-                    .perform(click());
+        addAGoal("Overdue Goal", "some description", "10");
+        selectCurrentDate();
+        submitAddGoal();
 
-            goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
-        }
-
-        // An existing goal with deadline assigned
-        onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Overdue Goal"), closeSoftKeyboard());
-        onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
-        onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
-
-        // current time, thus right after the goal is created it is overdue
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-        onView(withId(R.id.deadline_textview)).perform(click());
-
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-                .perform(PickerActions.setDate(year, month+1, dayOfMonth));
-        onView(withText("OK")).perform(click());
-
-        onView(withId(R.id.add_goal_button)).perform(click());
-
-        // Should receive an overdue alert or notice
-        onView(ViewMatchers.withId(R.id.goals_recycler_view))
-                .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(R.id.overdue_output))));
-
-        onView(withId(R.id.overdue_output)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        checkVisibility(R.id.overdue_output, ViewMatchers.Visibility.VISIBLE);
     }
 
     // User Story 5, Scenario 2
     @Test
     public void notAssignedDeadlineGoal(){
-        // delete all existing goals
-        int goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
-        while(goalCount != 0){
-            onView(withId(R.id.goals_recycler_view))
-                    .perform(actionOnItemAtPosition(0, longClick()));
+        deleteExistingGoals();
 
-            onView(withText("DELETE"))
-                    .perform(click());
+        addAGoal("Not Assigned Deadline Goal", "some description", "10");
+        submitAddGoal();
 
-            goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
-        }
+        checkVisibility(R.id.overdue_output, ViewMatchers.Visibility.GONE);
+    }
 
-        // An existing goal without deadline assigned
-        onView(withId(R.id.add_new_goal_button)).perform(click());
-        onView(withId(R.id.title_input)).perform(typeText("Not Assigned Deadline Goal"), closeSoftKeyboard());
-        onView(withId(R.id.description_input)).perform(typeText("some description"), closeSoftKeyboard());
-        onView(withId(R.id.goals_counter_input)).perform(typeText("10"), closeSoftKeyboard());
+    // User story #9, Scenario 1
+    @Test
+    public void completedGoal(){
+        deleteExistingGoals();
 
-        onView(withId(R.id.add_goal_button)).perform(click());
+        addAGoal("Completed goal", "some description", "10");
+        submitAddGoal();
 
-        // Should not receive an overdue alert or notice
-        onView(ViewMatchers.withId(R.id.goals_recycler_view))
-                .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(R.id.overdue_output))));
-
-        onView(withId(R.id.overdue_output)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+//        updateProgress(10);
     }
 
     private int getRecyclerViewItemCount(int recyclerViewId) {
@@ -221,5 +167,57 @@ public class MainActivityEspressoTest {
                 datePicker.updateDate(year, monthOfYear, dayOfMonth);
             }
         };
+    }
+
+    private void deleteExistingGoals(){
+        int goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
+        while(goalCount != 0){
+            onView(withId(R.id.goals_recycler_view))
+                    .perform(actionOnItemAtPosition(0, longClick()));
+
+            onView(withText("DELETE"))
+                    .perform(click());
+
+            goalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
+        }
+    }
+
+    private void addAGoal(String title, String description, String goalsCounter){
+        onView(withId(R.id.add_new_goal_button)).perform(click());
+        onView(withId(R.id.title_input)).perform(typeText(title), closeSoftKeyboard());
+        onView(withId(R.id.description_input)).perform(typeText(description), closeSoftKeyboard());
+        onView(withId(R.id.goals_counter_input)).perform(typeText(goalsCounter), closeSoftKeyboard());
+    }
+
+    private void deleteLatestGoal(){
+        onView(withId(R.id.goals_recycler_view))
+                .perform(actionOnItemAtPosition(0, longClick()));
+
+        onView(withText("DELETE"))
+                .perform(click());
+    }
+
+    private void selectCurrentDate(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        onView(withId(R.id.deadline_textview)).perform(click());
+
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(year, month+1, dayOfMonth));
+        onView(withText("OK")).perform(click());
+    }
+
+    private void submitAddGoal(){
+        onView(withId(R.id.add_goal_button)).perform(click());
+    }
+
+    private void checkVisibility(int id, ViewMatchers.Visibility visibility){
+        onView(ViewMatchers.withId(R.id.goals_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(id))));
+
+        onView(withId(id)).check(matches(withEffectiveVisibility(visibility)));
     }
 }

@@ -50,21 +50,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Goal goal = goalList.get(position);
-        holder.titleOutput.setText(goal.getTitle());
-        holder.descriptionOutput.setText(goal.getDescription());
-        if(goal.getDeadline() != null){
-            holder.deadlineOutput.setText("Deadline: " + goal.getDeadline().toString());
-        }
-        else{
-            holder.deadlineOutput.setText("Deadline not assigned");
-        }
 
-        if(goal.isOverdue() && goal.getDeadline() != null){
-            holder.overdueOutput.setVisibility(View.VISIBLE);
-        }
-        else{
-            holder.overdueOutput.setVisibility(View.GONE);
-        }
+        displayGoal(holder, goal);
+        displayDeadline(holder, goal);
+        displayOverdue(holder, goal);
+        displayCompleted(holder, goal);
+
+        updateProgressbar(holder, goal.getGoalsCounter(), goal.getGoalsCompletedCounter());
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -128,7 +120,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         if(InputValidator.validNumberInput(userGoalsInput)) {
                             goal.updateGoalsCompletedCounter(Integer.parseInt(userGoalsInput));
                             listener.onInputSaved();
-                            realm.commitTransaction();
+                            if(realm.isInTransaction()) realm.commitTransaction();
                             Toast.makeText(context, "Progress updated", Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -164,6 +156,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView descriptionOutput;
         TextView deadlineOutput;
         TextView overdueOutput;
+        TextView completedOutput;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -171,6 +164,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             descriptionOutput = itemView.findViewById(R.id.description_output);
             deadlineOutput = itemView.findViewById(R.id.deadline_output);
             overdueOutput = itemView.findViewById(R.id.overdue_output);
+            completedOutput = itemView.findViewById(R.id.completed_output);
         }
     }
 
@@ -190,5 +184,59 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         realm.commitTransaction();
 
         notifyDataSetChanged();
+    }
+
+    public void updateCompletedStatus(){
+        Realm realm = Realm.getDefaultInstance();
+        if(!realm.isInTransaction()) realm.beginTransaction();
+
+        for(Goal goal : goalList){
+            if(goal.getGoalsCompletedCounter() >= goal.getGoalsCounter()){
+                goal.setCompleted(true);
+            }
+            else goal.setCompleted(false);
+        }
+
+        realm.commitTransaction();
+
+        notifyDataSetChanged();
+    }
+
+    private void updateProgressbar(RecyclerView.ViewHolder viewHolder, int goalsCounter, int goalsCompletedCounter){
+        ProgressBar progressBar = viewHolder.itemView.findViewById(R.id.progressBar);
+        progressBar.setMax(goalsCounter);
+        progressBar.setProgress(goalsCompletedCounter);
+    }
+
+    private void displayDeadline(MyViewHolder viewHolder, Goal goal){
+        if(goal.getDeadline() != null){
+            viewHolder.deadlineOutput.setText("Deadline: " + goal.getDeadline().toString());
+        }
+        else{
+            viewHolder.deadlineOutput.setText("Deadline not assigned");
+        }
+    }
+
+    private void displayOverdue(MyViewHolder viewHolder, Goal goal){
+        if(goal.isOverdue() && goal.getDeadline() != null){
+            viewHolder.overdueOutput.setVisibility(View.VISIBLE);
+        }
+        else{
+            viewHolder.overdueOutput.setVisibility(View.GONE);
+        }
+    }
+
+    private void displayCompleted(MyViewHolder viewHolder, Goal goal){
+        if(goal.isCompleted()){
+            viewHolder.completedOutput.setVisibility(View.VISIBLE);
+        }
+        else{
+            viewHolder.completedOutput.setVisibility(View.GONE);
+        }
+    }
+
+    private void displayGoal(MyViewHolder viewHolder, Goal goal){
+        viewHolder.titleOutput.setText(goal.getTitle());
+        viewHolder.descriptionOutput.setText(goal.getDescription());
     }
 }

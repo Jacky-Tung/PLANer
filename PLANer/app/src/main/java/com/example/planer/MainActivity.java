@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterListener
     Realm realm;
     RecyclerView recyclerView;
     RealmResults<Goal> goalList;
-    List<RecyclerView.ViewHolder> viewHolderList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapterListener
 
         Realm.init(getApplicationContext());
 //        Reset Database if we modify instance variables for Goal class
-        RealmConfiguration config = Realm.getDefaultConfiguration();
-        Realm.deleteRealm(config);      // giving crashes at startup, ask team [ java.lang.IllegalStateException: It's not allowed to delete the file associated with an open Realm. Remember to close() all the instances of the Realm before deleting its file: /data/user/0/com.example.planer/files/default.realm ]
+//        RealmConfiguration config = Realm.getDefaultConfiguration();
+//        Realm.deleteRealm(config);      // giving crashes at startup, ask team [ java.lang.IllegalStateException: It's not allowed to delete the file associated with an open Realm. Remember to close() all the instances of the Realm before deleting its file: /data/user/0/com.example.planer/files/default.realm ]
         realm = Realm.getDefaultInstance();
 
         goalList = realm.where(Goal.class).findAll().sort("createdAt", Sort.DESCENDING);
@@ -60,20 +59,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterListener
         myAdapter.listener = this;
         recyclerView.setAdapter(myAdapter);
 
-        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-            @Override
-            public void onChildViewAttachedToWindow(@NonNull View view) {
-                RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-                viewHolderList.add(viewHolder);
-            }
-
-            @Override
-            public void onChildViewDetachedFromWindow(@NonNull View view) {
-                RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-                viewHolderList.remove(viewHolder);
-            }
-        });
-
         TextView goalCount = findViewById(R.id.goal_count);
         goalCount.setText("Number of goals: " + myAdapter.getItemCount());
 
@@ -82,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapterListener
             public void onChange(RealmResults<Goal> goals) {
                 myAdapter.notifyDataSetChanged();
                 goalCount.setText("Number of goals: " + myAdapter.getItemCount());
-                updateProgressBar();
             }
         });
     }
@@ -91,26 +75,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapterListener
     protected void onResume() {
         super.onResume();
 
-        // checks for overdue for each goal while MainActivity is in resume state
         myAdapter.updateOverdueStatus();
-        updateProgressBar();
-    }
-
-    public void updateProgressBar(){
-        if(myAdapter.getItemCount() != 0) {
-            int i = 0;
-            for (RecyclerView.ViewHolder viewHolder : viewHolderList) {
-                ProgressBar progressBar = viewHolder.itemView.findViewById(R.id.progressBar);
-                Goal goal = goalList.get(i);
-                progressBar.setMax(goal.getGoalsCounter());
-                progressBar.setProgress(goal.getGoalsCompletedCounter());
-                if (i < myAdapter.getItemCount() - 1) i++;
-            }
-        }
+        myAdapter.updateCompletedStatus();
     }
 
     @Override
     public void onInputSaved() {
-        updateProgressBar();
+        myAdapter.updateCompletedStatus();
     }
 }
