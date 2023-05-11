@@ -18,7 +18,7 @@ public class AssignDailyNumberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_daily_number);
 
-        EditText dailyNumberInput = findViewById(R.id.daily_number_input);
+        EditText goalsInput = findViewById(R.id.daily_number_input);
         MaterialButton assignDailyNumberButton = findViewById(R.id.assign_dailynumber_button);
         MaterialButton returnButton = findViewById(R.id.return_button);
 
@@ -29,13 +29,13 @@ public class AssignDailyNumberActivity extends AppCompatActivity {
         assignDailyNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String dailyNumber = dailyNumberInput.getText().toString();
+                String dailyNumber = goalsInput.getText().toString();
 
                 if(InputValidator.validNumberInput(dailyNumber)){
                     // fetch specific goal clicked on, set daily number
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Invalid daily number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Invalid goals input", Toast.LENGTH_SHORT).show();
                 }
             }
         });

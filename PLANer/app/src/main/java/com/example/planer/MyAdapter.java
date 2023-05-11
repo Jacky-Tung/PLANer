@@ -14,13 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -30,6 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     Context context;
     Activity activity;
     RealmResults<Goal> goalList;
+    MyAdapterListener listener;
 
     public MyAdapter(Context context, RealmResults<Goal> goalList, Activity activity) {
         this.context = context;
@@ -123,14 +127,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         String userGoalsInput = goalsInput.getText().toString();
                         if(InputValidator.validNumberInput(userGoalsInput)) {
                             goal.updateGoalsCompletedCounter(Integer.parseInt(userGoalsInput));
-                            MyProgressBar progressBar = new MyProgressBar(view);
-                            progressBar.setGoalsCompletedCounter(goal.getGoalsCompletedCounter());
-                            progressBar.setGoalsCounter(goal.getGoalsCounter());
-                            progressBar.displayProgressBar();
-//                                        goal.setProgressBar(new MyProgressBar(view));
-//                                        goal.getProgressBar().setGoalsCounter(goal.getGoalsCounter());
-//                                        goal.getProgressBar().setGoalsCompletedCounter(goal.getGoalsCompletedCounter());
-//                                        goal.getProgressBar().displayProgressBar();
+                            listener.onInputSaved();
                             realm.commitTransaction();
                             Toast.makeText(context, "Progress updated", Toast.LENGTH_SHORT).show();
                         }

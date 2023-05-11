@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:text="ASSIGN DAILY NUMBER"
+        android:text="ASSIGN GOALS INPUT"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/teal_100"
-            android:hint="Daily number"
+            android:hint="GOALS INPUT"
             android:padding="15dp" />
 
     </LinearLayout>
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
-        android:text="ASSIGN DAILY NUMBER"
+        android:text="ASSIGN GOALS INPUT"
         android:textColor="@color/teal_200" />
 
 </LinearLayout>
