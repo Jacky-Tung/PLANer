@@ -78,4 +78,12 @@ Richard Park, rsjpark2@gmail.com, github: rsjpark
   - Cumulative Index: partly finished, we have the layout and instance variables but have not implemented the functionality of accumulating user goals input
 
 - Design pattern:
-  - Iterator design pattern: use an iterator to loop through our goalList collections.
+  - Model-View-Controller
+    - Controller: Adapter class
+        - View selection: Adapter selects View view of mainActivity
+        - State change: Adapter works with any changes to the goal/realm object
+    - Model: Realm object (goal object)
+        - Any changes to goal/realm object are reflected to the view
+    - View: Android UI
+        - View asks realmdb for changes in state
+        - View passes on user behaviors to adapter

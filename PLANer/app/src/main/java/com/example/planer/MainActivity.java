@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapterListener
         Realm.init(getApplicationContext());
 //        Reset Database if we modify instance variables for Goal class
         RealmConfiguration config = Realm.getDefaultConfiguration();
-        Realm.deleteRealm(config);
+        Realm.deleteRealm(config);      // giving crashes at startup, ask team [ java.lang.IllegalStateException: It's not allowed to delete the file associated with an open Realm. Remember to close() all the instances of the Realm before deleting its file: /data/user/0/com.example.planer/files/default.realm ]
         realm = Realm.getDefaultInstance();
 
         goalList = realm.where(Goal.class).findAll().sort("createdAt", Sort.DESCENDING);

@@ -40,10 +40,6 @@ public class Goal extends RealmObject {
         this.description = description;
     }
 
-    public long getCreatedAt() {
-        return createdAt;
-    }
-
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
     }
@@ -110,10 +106,6 @@ public class Goal extends RealmObject {
 
     public void updateGoalsCompletedCounter(int goalsInput){
         this.goalsCompletedCounter += goalsInput;
-    }
-
-    public boolean isCompleted() {
-        return completed;
     }
 
     public void setCompleted(boolean completed) {
