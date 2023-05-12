@@ -87,3 +87,32 @@ Richard Park, rsjpark2@gmail.com, github: rsjpark
     - View: Android UI
         - View asks realmdb for changes in state
         - View passes on user behaviors to adapter
+
+
+## Report 3 (TDD design iteration 3)
+
+- What we did:
+  - Added user story #7
+  - Modified user story #9
+  - Fixed up progress bar
+  - Created espresso test cases for user story #7/9 scenarios
+  - Closed user story #7/8/9
+  - Refactored MainActivityEspressoTest components to DRY code
+  - Multiple failing attempts to integrate progress moved to separate branch
+  - Updated storyboards to match modified user stories
+  - Added listener interface
+
+- Problems we faced: 
+  - Ran into issues with integrating progress bar due to unexpected behaviors 
+  - More issues with needing more android experience
+  - Trying to implement another design pattern because our main functionality depended on the adapter class
+
+- User stories incomplete:
+  - #6
+  - #3
+  
+- Design pattern:
+  - Adapter 
+    - Service object: Goal object
+    - Adapter: MyAdapter allows recycler view to work with Goal objects
+    - Client: which is the recycler view
