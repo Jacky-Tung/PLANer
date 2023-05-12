@@ -27,6 +27,8 @@ import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.glance.action.Action;
 import androidx.recyclerview.widget.RecyclerView;
@@ -117,7 +119,46 @@ public class MainActivityEspressoTest {
         addAGoal("Completed goal", "some description", "10");
         submitAddGoal();
 
-//        updateProgress(10);
+        updateProgress("10", "Completed goal");
+
+        checkVisibility(R.id.completed_output, ViewMatchers.Visibility.VISIBLE);
+    }
+
+    // User story #9, Scenario 2
+    @Test
+    public void incompleteGoal(){
+        deleteExistingGoals();
+
+        addAGoal("Incomplete goal", "some description", "100");
+        submitAddGoal();
+
+        updateProgress("10", "Incomplete goal");
+
+        checkVisibility(R.id.completed_output, ViewMatchers.Visibility.GONE);
+    }
+
+    // User story #7, Scenario 1
+    @Test
+    public void goalWithProgress(){
+        deleteExistingGoals();
+
+        addAGoal("Goal With Progress", "some description", "10");
+        submitAddGoal();
+
+        updateProgress("2", "Goal With Progress");
+
+        checkProgressBar("2");
+    }
+
+    // User story #7, Scenario 2
+    @Test
+    public void goalWithNoProgress(){
+        deleteExistingGoals();
+
+        addAGoal("Goal Without Progress", "some description", "10");
+        submitAddGoal();
+
+        checkProgressBar("0");
     }
 
     private int getRecyclerViewItemCount(int recyclerViewId) {
@@ -219,5 +260,20 @@ public class MainActivityEspressoTest {
                 .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(id))));
 
         onView(withId(id)).check(matches(withEffectiveVisibility(visibility)));
+    }
+
+    private void updateProgress(String progress, String text){
+        onView(withText(text)).perform(click());
+        onView(withText("Enter progress completed")).check(matches(isDisplayed()));
+        onView(withText("Please enter your progress:")).check(matches(isDisplayed()));
+        onView(isAssignableFrom(EditText.class)).perform(typeText(progress), closeSoftKeyboard());
+        onView(withText("OK")).perform(click());
+    }
+
+    private void checkProgressBar(String expectedProgress){
+        activityRule.getScenario().onActivity(activity -> {
+            ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+            assertEquals(Integer.parseInt(expectedProgress), progressBar.getProgress());
+        });
     }
 }
