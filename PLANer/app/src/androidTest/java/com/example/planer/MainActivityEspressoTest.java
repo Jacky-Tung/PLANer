@@ -4,12 +4,9 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -17,20 +14,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.JMock1Matchers.equalTo;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
-
-import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import androidx.glance.action.Action;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
@@ -38,7 +30,6 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -60,7 +51,7 @@ public class MainActivityEspressoTest {
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    // User Story 2, Scenario 1
+    // User Story #2, Scenario 1
     @Test
     public void addNewGoalTest(){
         int initialGoalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
@@ -73,7 +64,7 @@ public class MainActivityEspressoTest {
         assertEquals(initialGoalCount + 2, getRecyclerViewItemCount(R.id.goals_recycler_view));
     }
 
-    // User Story 2, Scenario 2
+    // User Story #2, Scenario 2
     @Test
     public void deleteGoalTest(){
         int initialGoalCount = getRecyclerViewItemCount(R.id.goals_recycler_view);
@@ -88,7 +79,7 @@ public class MainActivityEspressoTest {
         assertEquals(initialGoalCount + 2 - 1, getRecyclerViewItemCount(R.id.goals_recycler_view));
     }
 
-    // User Story 5, Scenario 1
+    // User Story #5, Scenario 1
     @Test
     public void overdueGoal(){
         deleteExistingGoals();
@@ -100,7 +91,7 @@ public class MainActivityEspressoTest {
         checkVisibility(R.id.overdue_output, ViewMatchers.Visibility.VISIBLE);
     }
 
-    // User Story 5, Scenario 2
+    // User Story #5, Scenario 2
     @Test
     public void notAssignedDeadlineGoal(){
         deleteExistingGoals();
