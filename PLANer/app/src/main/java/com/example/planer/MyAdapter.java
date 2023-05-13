@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.realm.Realm;
@@ -124,7 +125,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private void displayDeadline(MyViewHolder viewHolder, Goal goal){
         if(goal.getDeadline() != null){
-            viewHolder.deadlineOutput.setText("Deadline: " + goal.getDeadline().toString());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            viewHolder.deadlineOutput.setText("Deadline: " + dateFormat.format(goal.getDeadline()));
         }
         else{
             viewHolder.deadlineOutput.setText("Deadline not assigned");
@@ -132,7 +134,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     private void displayOverdue(MyViewHolder viewHolder, Goal goal){
-        if(goal.isOverdue() && goal.getDeadline() != null){
+        if(goal.isOverdue() && goal.getDeadline() != null && !goal.isCompleted()){
             viewHolder.overdueOutput.setVisibility(View.VISIBLE);
         }
         else{

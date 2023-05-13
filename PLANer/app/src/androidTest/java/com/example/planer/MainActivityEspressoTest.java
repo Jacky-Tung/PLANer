@@ -1,6 +1,7 @@
 package com.example.planer;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -50,6 +51,138 @@ public class MainActivityEspressoTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
+
+    // Project Demo
+    @Test
+    public void demo(){
+        pause();
+
+        /**
+         * User Story #2, Scenario 1
+         */
+        addAGoal("Add Goal", "User Story #2, Scenario 1", "10");
+        submitAddGoal();
+        pause();
+
+        /**
+         * User Story #2, Scenario 2
+         */
+        addAGoal("Goal to be deleted", "User Story #2, Scenario 2", "10");
+        submitAddGoal();
+        pause();
+        deleteLatestGoal();
+        pause();
+
+        /**
+         * User Story #4, Scenario 1
+         * User Story #7, Scenario 2
+         */
+        deleteExistingGoals();
+        String title = "Invalid input/No progress";
+        addAGoal(title, "User Story #4, Scenario 1 and User Story #7, Scenario 2", "10");
+        submitAddGoal();
+        updateProgress(title, title);
+        pause();
+
+        /**
+         * User Story #4, Scenario 2
+         * User Story #7, Scenario 1
+         */
+        deleteExistingGoals();
+        title = "Valid input/Update progress";
+        addAGoal(title, "User Story #4, Scenario 2 and User Story #7, Scenario 1", "10");
+        submitAddGoal();
+        updateProgress("2", title);
+        pause();
+
+        /**
+         * User Story #5, Scenario 1
+         */
+        deleteExistingGoals();
+        addAGoal("Overdue goal", "User Story #5, Scenario 1", "10");
+        selectCurrentDate();
+        submitAddGoal();
+        pause();
+
+        /**
+         * User Story #5, Scenario 2
+         */
+        deleteExistingGoals();
+        addAGoal("Goal without deadline", "User Story #5, Scenario 2", "10");
+        submitAddGoal();
+        pause();
+        addAGoal("Goal with deadline as tomorrow", "User Story #5, Scenario 2", "10");
+        selectTomorrowDate();
+        submitAddGoal();
+        pause();
+
+        /**
+         * User Story #9, Scenario 1
+         */
+        deleteExistingGoals();
+        title = "Goal to be completed";
+        String progress = "10";
+        addAGoal(title, "User Story #9, Scenario 1", progress);
+        submitAddGoal();
+        updateProgress(progress, title);
+        pause();
+
+        /**
+         * User Story #9, Scenario 2
+         */
+        deleteExistingGoals();
+        title = "Goal not completed";
+        addAGoal(title, "User Story #9, Scenario 2", progress);
+        submitAddGoal();
+        updateProgress("2", title);
+        pause();
+
+        /**
+         * User Story #8, Scenario 1
+         */
+        deleteExistingGoals();
+        addAGoal("Goal to be modified", "User Story #8, Scenario 1", "10");
+        submitAddGoal();
+        editGoal("Modified Goal", "User Story #8, Scenario 1", "10");
+        saveGoal();
+        pause();
+
+        /**
+         * User Story #8, Scenario 2
+         */
+        editGoal("Cancel goal edit", "User Story #8, Scenario 2", "Return back to main activity");
+        pause();
+        returnBackModify();
+        pause();
+    }
+
+    private void pause(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void returnBackModify(){
+        onView(withId(R.id.return_button_modify)).perform(click());
+    }
+
+    private void editGoal(String title, String description, String goalsCounter){
+        onView(withId(R.id.goals_recycler_view))
+                .perform(actionOnItemAtPosition(0, longClick()));
+
+        onView(withText("MODIFY GOAL"))
+                .perform(click());
+
+        onView(withId(R.id.title_input_modify)).perform(clearText()).perform(typeText(title), closeSoftKeyboard());
+        onView(withId(R.id.description_input_modify)).perform(clearText()).perform(typeText(description), closeSoftKeyboard());
+        onView(withId(R.id.goals_counter_input_modify)).perform(clearText()).perform(typeText(goalsCounter), closeSoftKeyboard());
+    }
+
+    private void saveGoal(){
+        onView(withText("SAVE GOAL")).perform(click());
+    }
 
     // User Story #2, Scenario 1
     @Test
@@ -242,6 +375,18 @@ public class MainActivityEspressoTest {
         onView(withText("OK")).perform(click());
     }
 
+    private void selectTomorrowDate(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        onView(withId(R.id.deadline_textview)).perform(click());
+
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(year, month+1, dayOfMonth + 1));
+        onView(withText("OK")).perform(click());
+    }
     private void submitAddGoal(){
         onView(withId(R.id.add_goal_button)).perform(click());
     }
