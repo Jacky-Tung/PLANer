@@ -1,5 +1,8 @@
 # Term Project
 
+## Project Demo
+[demo.webm](https://github.com/cunychenhclass/cisc3171proj-group-10-1/assets/110960384/d33ad21c-56f5-4685-a4b7-8c9d8e0bb670)
+
 ## Project Team
 
 Jacky Tung, jackytung20@gmail.com, github: Jacky Tung
@@ -116,6 +119,3 @@ Richard Park, rsjpark2@gmail.com, github: rsjpark
     - Service object: Goal object
     - Adapter: MyAdapter allows recycler view to work with Goal objects
     - Client: which is the recycler view
-
-## Project Demo
-[demo.webm](https://github.com/cunychenhclass/cisc3171proj-group-10-1/assets/110960384/d33ad21c-56f5-4685-a4b7-8c9d8e0bb670)
