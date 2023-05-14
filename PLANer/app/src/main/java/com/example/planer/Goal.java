@@ -1,15 +1,9 @@
 package com.example.planer;
 
-import android.icu.util.Calendar;
-
 import java.util.Date;
 
 import io.realm.RealmObject;
-
-import java.util.UUID;
-
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
 public class Goal extends RealmObject {
 

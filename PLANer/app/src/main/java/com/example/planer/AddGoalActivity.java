@@ -20,17 +20,22 @@ import io.realm.Realm;
 public class AddGoalActivity extends AppCompatActivity {
 
     TextView deadlineTextView;
+    EditText titleInput;
+    EditText descriptionInput;
+    EditText goalsCounterInput;
+    MaterialButton addGoalButton;
+    MaterialButton returnButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
 
-        EditText titleInput = findViewById(R.id.title_input);
-        EditText descriptionInput = findViewById(R.id.description_input);
-        EditText goalsCounterInput = findViewById(R.id.goals_counter_input);
-        MaterialButton addGoalButton = findViewById((R.id.add_goal_button));
-        MaterialButton returnButton = findViewById(R.id.return_button);
+        titleInput = findViewById(R.id.title_input);
+        descriptionInput = findViewById(R.id.description_input);
+        goalsCounterInput = findViewById(R.id.goals_counter_input);
+        addGoalButton = findViewById((R.id.add_goal_button));
+        returnButton = findViewById(R.id.return_button);
         deadlineTextView = findViewById(R.id.deadline_textview);
 
         Realm.init(getApplicationContext());
@@ -65,8 +70,6 @@ public class AddGoalActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override

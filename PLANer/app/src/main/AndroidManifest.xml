@@ -12,9 +12,6 @@
         android:theme="@style/Theme.PLANer"
         tools:targetApi="31">
         <activity
-            android:name=".AssignDailyNumberActivity"
-            android:exported="false" />
-        <activity
             android:name=".AddGoalActivity"
             android:exported="true" />
         <!--        -->
