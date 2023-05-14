@@ -4,12 +4,11 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -17,20 +16,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.JMock1Matchers.equalTo;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-
-import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import androidx.glance.action.Action;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
@@ -161,6 +158,46 @@ public class MainActivityEspressoTest {
         checkProgressBar("0");
     }
 
+    // User story #8, Scenario 1
+    @Test
+    public void modifyExistingGoal() {
+
+        deleteExistingGoals();
+
+        addAGoal("Original Goal", "Original Description", "100");
+        submitAddGoal();
+        String originalTitle = getText(withId(R.id.title_output));
+
+
+        modifyAGoal("Modified Goal", "Modified Description", "200");
+        submitModifiedGoal();
+        String modifiedTitle = getText(withId(R.id.title_output));
+
+        assertNotEquals(originalTitle, modifiedTitle);
+    }
+
+    // User story #8, Scenario 2
+    @Test
+    public void modifyExistingGoalCancel() {
+
+        deleteExistingGoals();
+
+        addAGoal("Original Goal", "Original Description", "100");
+        submitAddGoal();
+        String originalTitle = getText(withId(R.id.title_output));
+
+        modifyAGoal("Modified Goal", "Modified Description", "200");
+        onView(withId(R.id.return_button_modify)).perform(click());
+        String modifiedTitle = getText(withId(R.id.title_output));
+
+        assertTrue(originalTitle.equals(modifiedTitle));
+    }
+
+    private String getGoalTitle() {
+        String title = onView(withId(R.id.title_output)).toString();
+        return title;
+    }
+
     private int getRecyclerViewItemCount(int recyclerViewId) {
         AtomicReference<Integer> itemCount = new AtomicReference<>();
         onView(withId(recyclerViewId)).check(new RecyclerViewItemCountAssertion(itemCount));
@@ -230,6 +267,16 @@ public class MainActivityEspressoTest {
         onView(withId(R.id.goals_counter_input)).perform(typeText(goalsCounter), closeSoftKeyboard());
     }
 
+    private void modifyAGoal(String modifiedTitle, String modifiedDescription, String modifiedGoalsCounter){
+
+        onView(withId(R.id.goals_recycler_view)).perform(actionOnItemAtPosition(0, longClick()));
+        onView(withText("MODIFY GOAL")).perform(click());
+
+        onView(withId(R.id.title_input_modify)).perform(replaceText(modifiedTitle));
+        onView(withId(R.id.description_input_modify)).perform(replaceText(modifiedDescription));
+        onView(withId(R.id.goals_counter_input_modify)).perform(replaceText(modifiedGoalsCounter));
+    }
+
     private void deleteLatestGoal(){
         onView(withId(R.id.goals_recycler_view))
                 .perform(actionOnItemAtPosition(0, longClick()));
@@ -255,6 +302,10 @@ public class MainActivityEspressoTest {
         onView(withId(R.id.add_goal_button)).perform(click());
     }
 
+    private void submitModifiedGoal() {
+        onView(withId(R.id.save_goal_button)).perform(click());
+    }
+
     private void checkVisibility(int id, ViewMatchers.Visibility visibility){
         onView(ViewMatchers.withId(R.id.goals_recycler_view))
                 .perform(RecyclerViewActions.scrollTo(hasDescendant(withId(id))));
@@ -275,5 +326,27 @@ public class MainActivityEspressoTest {
             ProgressBar progressBar = activity.findViewById(R.id.progressBar);
             assertEquals(Integer.parseInt(expectedProgress), progressBar.getProgress());
         });
+    }
+
+    private String getText(final Matcher<View> matcher) {
+        final String[] stringHolder = {null};
+        onView(matcher).perform(new ViewAction() {
+            @Override
+            public String getDescription() {
+                return "retrieving text from textview";
+            }
+
+            @Override
+            public Matcher<View> getConstraints() {
+                return isAssignableFrom(TextView.class);
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                TextView textView = (TextView)view;
+                stringHolder[0] = textView.getText().toString();
+            }
+        });
+        return stringHolder[0];
     }
 }
