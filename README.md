@@ -1,7 +1,7 @@
 # Term Project
 
 ## Project Demo
-[demo.webm](https://github.com/cunychenhclass/cisc3171proj-group-10-1/assets/110960384/a5b6e45e-4274-4636-a935-f7257679129c)
+[demo.webm](https://github.com/Jacky-Tung/PLANer/assets/110960384/32610b99-3eed-4a3a-bb15-afb9c1dd5e7b)
 
 ## Project Team
 
