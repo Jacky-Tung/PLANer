@@ -1,7 +1,7 @@
 # Term Project
 
 ## Project Demo
-[demo.webm](https://github.com/cunychenhclass/cisc3171proj-group-10-1/assets/110960384/d33ad21c-56f5-4685-a4b7-8c9d8e0bb670)
+[demo.webm](https://github.com/cunychenhclass/cisc3171proj-group-10-1/assets/110960384/a5b6e45e-4274-4636-a935-f7257679129c)
 
 ## Project Team
 
